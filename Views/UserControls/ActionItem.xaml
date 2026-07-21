@@ -1,0 +1,52 @@
+<UserControl x:Class="DevEnvStudio.Views.UserControls.ActionItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+
+    <Button Style="{StaticResource Style.ActionItem}" Click="OnButtonClick">
+        <Grid Margin="2,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="28"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Action icon circle -->
+            <Border Grid.Column="0"
+                    Width="26" Height="26"
+                    CornerRadius="6"
+                    Background="{DynamicResource Brush.Icon.Bg.Base}"
+                    VerticalAlignment="Center">
+                <Viewbox Width="13" Height="13">
+                    <Canvas Width="24" Height="24">
+                        <Path x:Name="IconPath"
+                              Fill="{DynamicResource Brush.Icon.Stroke.Active}"
+                              Data="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/>
+                    </Canvas>
+                </Viewbox>
+            </Border>
+
+            <!-- Text -->
+            <StackPanel Grid.Column="1"
+                        Margin="9,0,0,0"
+                        VerticalAlignment="Center">
+                <TextBlock x:Name="TbTitle"
+                           Style="{StaticResource Text.ActionTitle}"/>
+                <TextBlock x:Name="TbSubtitle"
+                           Style="{StaticResource Text.ActionSub}"
+                           Margin="0,1,0,0"/>
+            </StackPanel>
+
+            <!-- Chevron -->
+            <Path Grid.Column="2"
+                  Data="M8,5 L15,12 L8,19"
+                  Stroke="{StaticResource Brush.Text.Muted}"
+                  StrokeThickness="1.5"
+                  Width="7" Height="14"
+                  Stretch="Uniform"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"/>
+        </Grid>
+    </Button>
+</UserControl>

@@ -1,0 +1,28 @@
+## .NET build output
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.config
+*.manifest
+
+## IDE / editor files
+.vs/
+*.suo
+*.user
+*.userprefs
+*.sln.docstates
+*.DotSettings
+.vscode/
+
+## DevEnv Studio specific
+settings.json
+devenv_crash_diag.log
+*.devbackup
+*.devbackup_tmp
+
+## OS files
+Thumbs.db
+Desktop.ini
+.DS_Store

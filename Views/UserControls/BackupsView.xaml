@@ -1,0 +1,406 @@
+<UserControl x:Class="DevEnvStudio.Views.UserControls.BackupsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:uc="clr-namespace:DevEnvStudio.Views.UserControls"
+             xmlns:svc="clr-namespace:DevEnvStudio.Services"
+             Background="{StaticResource Brush.Window.Bg}"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="22,18,22,22">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>      <!-- 0: Header -->
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="Auto"/>      <!-- 2: Stat cards -->
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="*"/>          <!-- 4: Backup list + Restore Preview -->
+            </Grid.RowDefinitions>
+
+            <!-- ══ ROW 0: Header ══════════════════════════════════════ -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=NavBackups}"
+                               Style="{StaticResource Text.PageTitle}"/>
+                    <TextBlock Text="Manage and create backup archives"
+                               Style="{StaticResource Text.PageSubtitle}" Margin="0,3,0,0"/>
+                </StackPanel>
+
+                <Button Grid.Column="1" Style="{StaticResource Style.Btn.Primary}"
+                        Height="34" Padding="14,0"
+                        Click="CreateBackup_Click">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="+"
+                                   FontSize="16" FontWeight="Light"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"
+                                   Margin="0,-3,5,0"/>
+                        <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=CreateBackup}"
+                                   FontSize="12" FontWeight="SemiBold"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!-- ══ ROW 2: Stat cards ═══════════════════════════════════ -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Backups count -->
+                <Border Grid.Column="0" Style="{StaticResource Style.Card}" Padding="16,14">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Width="40" Height="40" CornerRadius="10"
+                                Background="{StaticResource Brush.Icon.Blue.Bg}" VerticalAlignment="Center">
+                            <Viewbox Width="20" Height="20">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="{DynamicResource Brush.Icon.Stroke.Active}"
+                                          Data="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.53 15.48 1 13 1c-1.32 0-2.6.53-3.54 1.46L7 5H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding BackupCount, Mode=OneWay}"
+                                       Style="{StaticResource Text.StatNumber}"/>
+                            <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=StatBackups}"
+                                       Style="{StaticResource Text.StatLabel}" Margin="0,2,0,0"/>
+                            <TextBlock Text="{Binding TotalBackupSize, Mode=OneWay}"
+                                       Style="{StaticResource Text.StatSub}" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Last Backup -->
+                <Border Grid.Column="2" Style="{StaticResource Style.Card}" Padding="16,14">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Width="40" Height="40" CornerRadius="10"
+                                Background="{StaticResource Brush.Icon.Green.Bg}" VerticalAlignment="Center">
+                            <Viewbox Width="20" Height="20">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="{DynamicResource Brush.Status.Success}"
+                                          Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=StatLastBackup}"
+                                       Style="{StaticResource Text.StatLabel}" Margin="0,2,0,0"/>
+                            <TextBlock Text="{Binding LastBackupDate, Mode=OneWay}"
+                                       Style="{StaticResource Text.StatSub}" Margin="0,4,0,0"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Storage -->
+                <Border Grid.Column="4" Style="{StaticResource Style.Card}" Padding="16,14">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Width="40" Height="40" CornerRadius="10"
+                                Background="{StaticResource Brush.Icon.Orange.Bg}" VerticalAlignment="Center">
+                            <Viewbox Width="20" Height="20">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="{DynamicResource Brush.Status.Warning}"
+                                          Data="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding StoragePctDisplay, Mode=OneWay}"
+                                       Style="{StaticResource Text.StatNumber}"
+                                       Foreground="{StaticResource Brush.Orange}"/>
+                            <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=StatStorageUsed}"
+                                       Style="{StaticResource Text.StatLabel}" Margin="0,2,0,0"/>
+                            <TextBlock Text="{Binding StorageDisplay, Mode=OneWay}"
+                                       Style="{StaticResource Text.StatSub}" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Free Space -->
+                <Border Grid.Column="6" Style="{StaticResource Style.Card}" Padding="16,14">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Width="40" Height="40" CornerRadius="10"
+                                Background="{StaticResource Brush.Icon.Purple.Bg}" VerticalAlignment="Center">
+                            <Viewbox Width="20" Height="20">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="{DynamicResource Brush.Purple}"
+                                          Data="M6 2v6l2 2-2 2v6l6-3 6 3v-6l-2-2 2-2V2l-6 3-6-3zm4 2.76L12 3.5l2 1.26v4.48L12 10.5l-2-1.26V4.76zm-2 7.04l2-1.3 2 1.3-.01 4.68L12 17.5l-1.99-1.02.01-4.68z"/>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding StorageFree, Mode=OneWay}"
+                                       Style="{StaticResource Text.StatNumber}"
+                                       Foreground="{StaticResource Brush.Purple}"/>
+                            <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=StatFreeSpace}"
+                                       Style="{StaticResource Text.StatLabel}" Margin="0,2,0,0"/>
+                            <TextBlock Text="{Binding DriveLetter, Mode=OneWay}"
+                                       Style="{StaticResource Text.StatSub}" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- ══ ROW 4: Backup list + Restore Preview side by side ══ -->
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="Auto" MinWidth="320" MaxWidth="440"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ── Backup list (left) — fixed-header style ─────── -->
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="12"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Card shell: header + scan bar + column headers -->
+                    <Border Grid.Row="0" Style="{StaticResource Style.Card}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>          <!-- section header -->
+                                <RowDefinition Height="Auto"/>          <!-- separator -->
+                                <RowDefinition Height="Auto"/>          <!-- scan bar -->
+                                <RowDefinition Height="Auto"/>          <!-- table header -->
+                            </Grid.RowDefinitions>
+
+                            <!-- Section header + Scanning badge -->
+                            <Grid Grid.Row="0" Margin="14,12,14,10">
+                                <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=RecentBackups}"
+                                           Style="{StaticResource Text.SectionHeader}"/>
+                                <Border HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        CornerRadius="10" Padding="8,3"
+                                        Background="{StaticResource Brush.Icon.Blue.Bg}"
+                                        Visibility="{Binding IsScanning, Converter={StaticResource BoolToVisConverter}}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="5" Height="5" Fill="{StaticResource Brush.Blue}"
+                                                 VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                        <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=Scanning}"
+                                                   FontFamily="{StaticResource Font.Primary}"
+                                                   FontSize="9" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource Brush.Blue}"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                            <Rectangle Grid.Row="1" Style="{StaticResource Style.HSeparator}"/>
+
+                            <!-- Scan progress bar (compact) -->
+                            <Border Grid.Row="2"
+                                    Background="{DynamicResource Brush.Status.Bg}"
+                                    Padding="14,6"
+                                    Visibility="{Binding IsScanning, Converter={StaticResource BoolToVisConverter}}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding ScanPhase, Mode=OneWay}"
+                                                   FontFamily="{StaticResource Font.Primary}"
+                                                   FontSize="11" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource Brush.Text.Primary}"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding ScanStatus, Mode=OneWay}"
+                                                   FontFamily="{StaticResource Font.Primary}"
+                                                   FontSize="10"
+                                                   Foreground="{StaticResource Brush.Text.Secondary}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Margin="0,1,0,0"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" Text="{Binding BackupCount, Mode=OneWay}"
+                                               FontFamily="{StaticResource Font.Primary}"
+                                               FontSize="18" FontWeight="Bold"
+                                               Foreground="{StaticResource Brush.Blue}"
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                                <Border.Style>
+                                    <Style TargetType="Border" BasedOn="{StaticResource Style.Card}">
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="CornerRadius" Value="0"/>
+                                        <Setter Property="Padding" Value="14,6"/>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+
+                            <!-- Table header -->
+                            <Grid Grid.Row="3" Margin="14,8,14,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" MinWidth="100"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="55"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="14"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=ColName}"
+                                           Style="{StaticResource Text.TableHeader}"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=ColSource}"
+                                           Style="{StaticResource Text.TableHeader}"/>
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=ColDate}"
+                                           Style="{StaticResource Text.TableHeader}"/>
+                                <TextBlock Grid.Column="3"
+                                           Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=ColSize}"
+                                           Style="{StaticResource Text.TableHeader}"/>
+                                <TextBlock Grid.Column="4"
+                                           Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=ColStatus}"
+                                           Style="{StaticResource Text.TableHeader}"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <!-- Backup items (overlaps the card bottom) — fixed-header pattern -->
+                    <Border Grid.Row="0" Margin="0,70,0,0"
+                            BorderBrush="{StaticResource Brush.Card.Border}" BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,8,8"
+                            Background="{StaticResource Brush.Card.Bg}">
+                        <ItemsControl ItemsSource="{Binding Backups}"
+                                      MaxHeight="420"
+                                      VirtualizingPanel.IsVirtualizing="True"
+                                      VirtualizingPanel.VirtualizationMode="Recycling">
+                            <ItemsControl.Template>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type svc:BackupItem}">
+                                    <uc:BackupTableRow
+                                        BackupName="{Binding Name}"
+                                        Subtitle="{Binding ContentSummary}"
+                                        Environment="{Binding Subtitle}"
+                                        Date="{Binding Date}"
+                                        Size="{Binding SizeFmt}"
+                                        Status="{Binding Status}"
+                                        IconType="{Binding IconType}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </Grid>
+
+                <!-- ── Restore Preview (right) ─────────────────────── -->
+                <Border Grid.Column="2" Style="{StaticResource Style.Card}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Header + Open Archive button -->
+                        <Grid Grid.Row="0" Margin="14,12,14,10">
+                            <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=RestorePreview}"
+                                       Style="{StaticResource Text.SectionHeader}"/>
+                            <Button Style="{StaticResource Style.Btn.Link}"
+                                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                                    Click="OpenPreviewArchive_Click">
+                                <TextBlock Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=OpenArchive}"
+                                           FontFamily="{StaticResource Font.Primary}"
+                                           FontSize="12"
+                                           Foreground="{StaticResource Brush.Text.Link}"/>
+                            </Button>
+                        </Grid>
+                        <Rectangle Grid.Row="1" Style="{StaticResource Style.HSeparator}"/>
+
+                        <!-- Selected backup badges -->
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="14,10,14,6"
+                                    Visibility="{Binding SelectedBackup, Converter={StaticResource EmptyToVisConverter}}">
+                            <Border CornerRadius="4" Background="{DynamicResource Brush.Badge.Bg}" Padding="7,3">
+                                <TextBlock Text="{Binding SelectedBackup.Name, FallbackValue='—'}"
+                                           FontFamily="{StaticResource Font.Primary}"
+                                           FontSize="11"
+                                           Foreground="{StaticResource Brush.Text.Secondary}"/>
+                            </Border>
+                            <Border CornerRadius="4" Background="{DynamicResource Brush.Badge.Bg}" Padding="7,3" Margin="8,0,0,0">
+                                <TextBlock Text="{Binding SelectedBackup.Date, FallbackValue='—'}"
+                                           FontFamily="{StaticResource Font.Primary}"
+                                           FontSize="11"
+                                           Foreground="{StaticResource Brush.Text.Secondary}"/>
+                            </Border>
+                            <Border CornerRadius="4" Background="{DynamicResource Brush.Badge.Bg}" Padding="7,3" Margin="8,0,0,0">
+                                <TextBlock Text="{Binding SelectedBackup.SizeFmt, FallbackValue='—'}"
+                                           FontFamily="{StaticResource Font.Primary}"
+                                           FontSize="11"
+                                           Foreground="{StaticResource Brush.Text.Secondary}"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Preview table header -->
+                        <Grid Grid.Row="3" Margin="14,4,14,4"
+                              Visibility="{Binding SelectedBackup.PreviewEntries.Count, Converter={StaticResource EmptyToVisConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=ColRestorePath}"
+                                       Style="{StaticResource Text.TableHeader}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=ColRestoreSize}"
+                                       Style="{StaticResource Text.TableHeader}"/>
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding Source={x:Static svc:LocalizationService.Instance}, Path=ColRestoreType}"
+                                       Style="{StaticResource Text.TableHeader}"/>
+                        </Grid>
+
+                        <!-- Preview entries -->
+                        <ItemsControl Grid.Row="4"
+                                      ItemsSource="{Binding SelectedBackup.PreviewEntries}"
+                                      Margin="0,0,0,8"
+                                      MaxHeight="420">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type svc:ArchivePreviewEntry}">
+                                    <uc:ArchiveFileRow RestorePath="{Binding RestorePath}"
+                                                       FileSize="{Binding FileSize}"
+                                                       FileType="{Binding FileType}"
+                                                       IsFolder="{Binding IsFolder}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Border>
+            </Grid>
+
+        </Grid>
+    </ScrollViewer>
+</UserControl>

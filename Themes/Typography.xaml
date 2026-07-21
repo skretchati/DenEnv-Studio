@@ -1,0 +1,218 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ═══════════════════════════════════════════════════════
+         FONT FAMILIES
+    ═══════════════════════════════════════════════════════ -->
+
+    <FontFamily x:Key="Font.Primary">Segoe UI</FontFamily>
+    <FontFamily x:Key="Font.Mono">Cascadia Code, Consolas, Courier New</FontFamily>
+    <FontFamily x:Key="Font.Icon">Segoe MDL2 Assets</FontFamily>
+
+    <!-- ═══════════════════════════════════════════════════════
+         FONT SIZES
+    ═══════════════════════════════════════════════════════ -->
+
+    <sys:Double x:Key="FontSize.Micro">9</sys:Double>
+    <sys:Double x:Key="FontSize.Tiny">10</sys:Double>
+    <sys:Double x:Key="FontSize.XSmall">11</sys:Double>
+    <sys:Double x:Key="FontSize.Small">12</sys:Double>
+    <sys:Double x:Key="FontSize.Base">13</sys:Double>
+    <sys:Double x:Key="FontSize.Medium">14</sys:Double>
+    <sys:Double x:Key="FontSize.Large">16</sys:Double>
+    <sys:Double x:Key="FontSize.XLarge">20</sys:Double>
+    <sys:Double x:Key="FontSize.XXLarge">22</sys:Double>
+    <sys:Double x:Key="FontSize.Stat">28</sys:Double>
+
+    <!-- ═══════════════════════════════════════════════════════
+         BASE IMPLICIT STYLE — TextBlock
+         NOTE: Does not set Foreground so controls can inherit
+    ═══════════════════════════════════════════════════════ -->
+
+    <Style TargetType="TextBlock">
+        <Setter Property="FontFamily"                    Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"                      Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="SnapsToDevicePixels"           Value="True"/>
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════
+         NAMED TEXT STYLES
+    ═══════════════════════════════════════════════════════ -->
+
+    <Style x:Key="Text.PageTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.XXLarge}"/>
+        <Setter Property="FontWeight"  Value="SemiBold"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.PageSubtitle" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="FontWeight"  Value="Normal"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Secondary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.SectionHeader" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Base}"/>
+        <Setter Property="FontWeight"  Value="SemiBold"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.SectionLink" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Link}"/>
+        <Setter Property="Cursor"      Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.StatNumber" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Stat}"/>
+        <Setter Property="FontWeight"  Value="Bold"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.StatLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="FontWeight"  Value="SemiBold"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.StatSub" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.XSmall}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Secondary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.TableHeader" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.XSmall}"/>
+        <Setter Property="FontWeight"  Value="SemiBold"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Muted}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.TableCell" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.TableCellMuted" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Secondary}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.Body" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.Secondary" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Secondary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.Muted" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.XSmall}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Muted}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.Caption" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Tiny}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Muted}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.Logo" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Base}"/>
+        <Setter Property="FontWeight"  Value="SemiBold"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.Mono" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Mono}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.XSmall}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Secondary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.ProgressPercent" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Large}"/>
+        <Setter Property="FontWeight"  Value="SemiBold"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Blue}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.NavItem" TargetType="TextBlock">
+        <Setter Property="FontFamily"   Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"     Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.SysInfoLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Secondary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.SysInfoValue" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="FontWeight"  Value="Medium"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.ActionTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.Small}"/>
+        <Setter Property="FontWeight"  Value="SemiBold"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="Text.ActionSub" TargetType="TextBlock">
+        <Setter Property="FontFamily"  Value="{StaticResource Font.Primary}"/>
+        <Setter Property="FontSize"    Value="{StaticResource FontSize.XSmall}"/>
+        <Setter Property="Foreground"  Value="{StaticResource Brush.Text.Secondary}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+</ResourceDictionary>
